@@ -42,7 +42,7 @@ namespace SistemaFacturacion.Controllers
                 new Claim("Correo", usuario.Correo)
             };
                 // Adición del rol del usuario a las reclamaciones
-                claims.Add(new Claim(ClaimTypes.Role, usuario.Roles));
+                claims.Add(new Claim(ClaimTypes.Role, usuario.Roles.NombreRol));
                 // Creación de una nueva identidad de reclamaciones utilizando las reclamaciones y el esquema de autenticación de cookies
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 // Inicio de sesión del usuario y establecimiento de la cookie de autenticación
@@ -76,6 +76,11 @@ namespace SistemaFacturacion.Controllers
         // Método para manejar la acción newUser
         public IActionResult newUser()
         {
+            // Obtener los roles desde la base de datos
+            List<RolesModel> roles = _usuarioDatos.GetRoles(); 
+
+            // Asignar los roles a ViewBag.Roles
+            ViewBag.Roles = roles;
             // Devolver la vista para crear un nuevo usuario
             return View();
         }
@@ -103,6 +108,13 @@ namespace SistemaFacturacion.Controllers
         public IActionResult editUser(int IdUser)
         {
             var oUsuario = _usuarioDatos.getUsers(IdUser);
+            // Obtener los roles desde la base de datos
+            List<RolesModel> roles = _usuarioDatos.GetRoles();
+
+            // Asignar los roles a ViewBag.Roles
+            ViewBag.Roles = roles;
+
+            oUsuario.Roles.IdRol = _usuarioDatos.getUserRole(IdUser);
             // Devolver la vista para crear un nuevo usuario
             return View(oUsuario);
         }

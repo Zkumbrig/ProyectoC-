@@ -37,9 +37,13 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Rol</label>
-                <input asp-for="Roles" type="text" class="form-control">
-                <span asp-validation-for="Roles" class="text-danger"></span>
+                <select asp-for="Roles.IdRol" asp-items="@(new SelectList(ViewBag.Roles, "IdRol", "NombreRol", Model.Roles.IdRol))" class="form-control">
+                    <option value="">---</option>
+                </select>
+                <span asp-validation-for="Roles.IdRol" class="text-danger"></span>
             </div>
+
+
             <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle  me-2"></i>Guardar</button>
             <a asp-action="Usuarios" asp-controller="Usuario" class="btn btn-warning"><i class="bi bi-backspace me-2"></i>Volver a la lista de Usuarios</a>
         </form>

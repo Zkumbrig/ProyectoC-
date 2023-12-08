@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaFacturacion.Models;
 using SistemaFacturacion.Datos;
-using System.Diagnostics.Contracts;
 
 namespace SistemaFacturacion.Controllers
 {

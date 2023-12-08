@@ -8,7 +8,6 @@ namespace SistemaFacturacion.Datos
     public class UsuarioDatos
     {
         // Método para obtener una lista de todos los usuarios
-        // Método para obtener una lista de todos los usuarios
         public List<UsuariosModel> ListUsers(string searchString = null)
         {
             // Creación de una nueva lista de usuarios
@@ -36,7 +35,11 @@ namespace SistemaFacturacion.Datos
                             NombreUsuario = dr["NombreUsuario"].ToString(),
                             Correo = dr["Correo"].ToString(),
                             Contraseña = dr["Contraseña"].ToString(),
-                            Roles = dr["Roles"].ToString()
+                            Roles = new RolesModel
+                            {
+                                IdRol = Convert.ToInt32(dr["Id"]),
+                                NombreRol = dr["NombreRol"].ToString()
+                            }
                         };
                         // Si no se proporcionó una cadena de búsqueda, o si el Nombre del usuario contiene la cadena de búsqueda,
                         // agregar el usuario a la lista.
@@ -83,13 +86,100 @@ namespace SistemaFacturacion.Datos
                             NombreUsuario = dr["NombreUsuario"].ToString(),
                             Correo = dr["Correo"].ToString(),
                             Contraseña = dr["Contraseña"].ToString(),
-                            Roles = dr["Roles"].ToString()
+                            Roles = new RolesModel
+                            {
+                                IdRol = Convert.ToInt32(dr["Id"]),
+                                NombreRol = dr["NombreRol"].ToString()
+                            }
                         };
                     }
                 }
             }
             // Devolución del usuario si las credenciales son válidas, o null si no lo son
             return usuario;
+        }
+
+        // Método para obtener todos los roles
+        public List<RolesModel> GetRoles()
+        {
+            // Crear una lista vacía para almacenar los roles
+            List<RolesModel> roles = new List<RolesModel>();
+            try
+            {
+                // Establecer una conexión a la base de datos
+                using (var cn = new SqlConnection(Connection.GetCadenaSql()))
+                {
+                    // Abrir la conexión a la base de datos
+                    cn.Open();
+
+                    // Crear un nuevo comando SQL para ejecutar el procedimiento almacenado "ListRoles"
+                    SqlCommand cmd = new SqlCommand("ListRoles", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Ejecutar el comando y obtener los resultados
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        // Leer cada fila de los resultados
+                        while (dr.Read())
+                        {
+                            // Crear un nuevo objeto RolesModel con los datos de la fila actual
+                            var rol = new RolesModel
+                            {
+                                IdRol = Convert.ToInt32(dr["Id"]),
+                                NombreRol = dr["NombreRol"].ToString()
+                            };
+
+                            // Agregar el rol a la lista de roles
+                            roles.Add(rol);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Si ocurre un error, guardar el mensaje de error
+                string error = ex.Message;
+            }
+            // Devolver la lista de roles
+            return roles;
+        }
+        // Método para obtener el rol de un usuario específico
+        public int getUserRole(int IdUser)
+        {
+            // Variable para almacenar el IdRol
+            int IdRol = 0;
+            try
+            {
+                // Establecer una conexión a la base de datos
+                using (var cn = new SqlConnection(Connection.GetCadenaSql()))
+                {
+                    // Abrir la conexión a la base de datos
+                    cn.Open();
+
+                    // Crear un nuevo comando SQL para ejecutar el procedimiento almacenado "GetUserRole"
+                    SqlCommand cmd = new SqlCommand("GetUserRole", cn);
+                    cmd.Parameters.AddWithValue("Id", IdUser);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Ejecutar el comando y obtener los resultados
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        // Leer la fila de los resultados
+                        if (dr.Read())
+                        {
+                            // Guardar el IdRol del usuario
+                            IdRol = Convert.ToInt32(dr["RolId"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Si ocurre un error, guardar el mensaje de error
+                string error = ex.Message;
+            }
+            // Devolver el IdRol del usuario
+            return IdRol;
         }
         // Método para obtener los datos de un usuario
         public UsuariosModel getUsers(int IdUser)
@@ -113,7 +203,12 @@ namespace SistemaFacturacion.Datos
                         oUsuario.NombreUsuario = dr["NombreUsuario"].ToString();
                         oUsuario.Correo = dr["Correo"].ToString();
                         oUsuario.Contraseña = dr["Contraseña"].ToString();
-                        oUsuario.Roles = dr["Roles"].ToString();
+                        oUsuario.Roles = new RolesModel
+                        {
+                            // Asume que tienes el RolId y el NombreRol en tu resultado
+                            IdRol = Convert.ToInt32(dr["Id"]),
+                            NombreRol = dr["NombreRol"].ToString()
+                        };
                     }
                 }
             }
@@ -135,7 +230,7 @@ namespace SistemaFacturacion.Datos
                     cmd.Parameters.AddWithValue("NombreUsuario", oUsuario.NombreUsuario);
                     cmd.Parameters.AddWithValue("Correo", oUsuario.Correo);
                     cmd.Parameters.AddWithValue("Contraseña", oUsuario.Contraseña);
-                    cmd.Parameters.AddWithValue("Roles", oUsuario.Roles);
+                    cmd.Parameters.AddWithValue("Id", oUsuario.Roles.IdRol);
                     cmd.CommandType = CommandType.StoredProcedure;
                     // Ejecutar el comando para agregar el nuevo Usuario
                     cmd.ExecuteNonQuery();
@@ -168,7 +263,7 @@ namespace SistemaFacturacion.Datos
                     cmd.Parameters.AddWithValue("NombreUsuario", oUsuario.NombreUsuario);
                     cmd.Parameters.AddWithValue("Correo", oUsuario.Correo);
                     cmd.Parameters.AddWithValue("Contraseña", oUsuario.Contraseña);
-                    cmd.Parameters.AddWithValue("Roles", oUsuario.Roles);
+                    cmd.Parameters.AddWithValue("Id", oUsuario.Roles.IdRol);
                     cmd.CommandType = CommandType.StoredProcedure;
                     // Ejecutar el comando para editar al Usuario
                     cmd.ExecuteNonQuery();

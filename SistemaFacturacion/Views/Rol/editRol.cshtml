@@ -1,0 +1,37 @@
+﻿@model RolesModel
+@{
+    ViewData["Title"] = "editRol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+            </div>
+        </nav>
+    </header>
+
+</body>
+<div class="card">
+    <div class="card-header">
+        Editar Rol
+    </div>
+    <div class="card-body">
+        <form asp-action="editRol" asp-controller="Rol" method="post">
+            <input asp-for="IdRol" type="hidden" class="form-control" />
+            <div class="mb-3">
+                <label class="form-label">Nombre del Rol</label>
+                <select asp-for="IdRol" asp-items="@(new SelectList(ViewBag.Roles, "IdRol", "NombreRol", Model.IdRol))" class="form-control">
+                    <option value="">---</option>
+                </select>
+                <span asp-validation-for="IdRol" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle  me-2"></i>Guardar</button>
+            <a asp-action="Roles" asp-controller="Rol" class="btn btn-warning"><i class="bi bi-backspace me-2"></i>Volver a la lista de Roles</a>
+        </form>
+    </div>
+</div>
+
+

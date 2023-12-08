@@ -104,7 +104,7 @@
                         <tr>
                             <td>@item.NombreUsuario</td>
                             <td>@item.Correo</td>
-                            <td>@item.Roles</td>
+                            <td>@item.Roles.NombreRol</td>
 
                             <td>
                                 <a asp-action="editUser" asp-controller="Usuario" class="btn btn-primary btn-sm" asp-route-IdUser="@item.IdUser"><i class="bi bi-pencil me-2"></i>Editar</a>
