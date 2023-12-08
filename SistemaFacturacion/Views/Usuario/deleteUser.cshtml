@@ -1,0 +1,31 @@
+﻿@model UsuariosModel
+@{
+    ViewData["Title"] = "deleteUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+            </div>
+        </nav>
+    </header>
+
+</body>
+<div class="card">
+    <div class="card-header">
+        Eliminar Usuario
+    </div>
+    <div class="card-body">
+        <form asp-action="deleteUser" asp-controller="Usuario" method="post">
+            <input asp-for="IdUser" type="hidden" class="form-control" />
+            <div class="alert alert-primary" role="alert">
+                ¿Desea eliminar este usuario: @Html.DisplayTextFor(m=> m.NombreUsuario) ?
+            </div>
+            <button type="submit" class="btn btn-danger"><i class="bi bi-person-x-fill  me-2"></i>Eliminar</button>
+            <a asp-action="Usuarios" asp-controller="Usuario" class="btn btn-warning"><i class="bi bi-backspace me-2"></i>Volver a la lista de Usuarios</a>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,141 @@
+﻿@model List<ClientesModel>
+@{
+    int pageNumber = ViewBag.PageNumber;
+}
+@{
+    ViewData["Title"] = "Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaFacturacion</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-gear-fill me-2"></i>
+                                    Mantenedor
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Rol</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Asignar Rol</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Usuario" asp-action="Usuarios">Usuarios</a>
+                                </div>
+                            </li>
+                        }
+                        @if (User.IsInRole("Supervisor") || User.IsInRole("Empleado") || User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-people-fill me-2"></i>
+                                    Clientes
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Cliente" asp-action="Clientes">Clientes</a>
+                                </div>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Supervisor") || User.IsInRole("Empleado") || User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-people-fill me-2"></i>
+                                    Facturas
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Factura" asp-action="Facturas">Facturas</a>
+                                </div>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Logout">Salir</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="card">
+        <div class="card-header">
+            <h1>Lista de Clientes</h1>
+        </div>
+        <div class="card-body">
+            <a asp-action="newClient" asp-controller="Cliente" class="btn btn-success"><i class="bi bi-plus-circle  me-2"></i>Nuevo Cliente</a>
+        </div>
+
+        <form asp-action="Clientes" asp-controller="Cliente" method="get" class="d-flex justify-content-between">
+            <div class="form-group mx-sm-3 mb-2 d-flex align-items-center">
+                <label class="me-2">Buscar:</label>
+                <div class="input-group">
+                    <input type="text" name="searchString" class="form-control ml-2 me-2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="p-3">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>DNI</th>
+                        <th>Teléfono</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.IdClient</td>
+                            <td>@item.NameClient</td>
+                            <td>@item.LastNameClient</td>
+                            <td>@item.DNI</td>
+                            <td>@item.Phone</td>
+
+                            <td>
+                                <a asp-action="editClient" asp-controller="Cliente" class="btn btn-primary btn-sm" asp-route-IdClient="@item.IdClient"><i class="bi bi-pencil me-2"></i>Editar</a>
+                                <a asp-action="deleteClient" asp-controller="Cliente" class="btn btn-danger btn-sm" asp-route-IdClient="@item.IdClient"><i class="bi bi-person-x-fill me-2"></i>Eliminar</a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0">Total de registros: @ViewBag.TotalRecords</p>
+                <div>
+                    <a asp-action="Clientes" asp-controller="Cliente" asp-route-pageNumber="@(ViewBag.PageNumber - 1)" class="btn btn-primary">Anterior</a>
+                    <input type="text" readonly class="form-control d-inline-block text-center" style="width: 50px;" value="@ViewBag.PageNumber" />
+                    <a asp-action="Clientes" asp-controller="Cliente" asp-route-pageNumber="@(ViewBag.PageNumber + 1)" class="btn btn-primary">Siguiente</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+

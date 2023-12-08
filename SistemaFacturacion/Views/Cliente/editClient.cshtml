@@ -1,0 +1,47 @@
+﻿@model ClientesModel
+@{
+    ViewData["Title"] = "editClient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+            </div>
+        </nav>
+    </header>
+
+</body>
+<div class="card">
+    <div class="card-header">
+        Editar Cliente
+    </div>
+    <div class="card-body">
+        <form asp-action="editClient" asp-controller="Cliente" method="post">
+            <input asp-for="IdClient" type="hidden" class="form-control"/>
+            <div class="mb-3">
+                <label class="form-label">Nombres</label>
+                <input asp-for="NameClient" type="text" class="form-control">
+                <span asp-validation-for="NameClient" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Apellidos</label>
+                <input asp-for="LastNameClient" type="text" class="form-control">
+                <span asp-validation-for="LastNameClient" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">DNI</label>
+                <input asp-for="DNI" type="text" class="form-control">
+                <span asp-validation-for="DNI" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Teléfono</label>
+                <input asp-for="Phone" type="text" class="form-control">
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle  me-2"></i>Guardar</button>
+            <a asp-action="Clientes" asp-controller="Cliente" class="btn btn-warning"><i class="bi bi-backspace me-2"></i>Volver a la lista de Clientes</a>
+        </form>
+    </div>
+</div>
+

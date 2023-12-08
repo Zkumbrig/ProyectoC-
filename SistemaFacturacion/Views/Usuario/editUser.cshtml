@@ -1,0 +1,48 @@
+﻿@model UsuariosModel
+@{
+    ViewData["Title"] = "editUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+            </div>
+        </nav>
+    </header>
+
+</body>
+<div class="card">
+    <div class="card-header">
+        Editar Usuario
+    </div>
+    <div class="card-body">
+        <form asp-action="editUser" asp-controller="Usuario" method="post">
+            <input asp-for="IdUser" type="hidden" class="form-control" />
+            <div class="mb-3">
+                <label class="form-label">Nombre Usuario</label>
+                <input asp-for="NombreUsuario" type="text" class="form-control">
+                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Correo</label>
+                <input asp-for="Correo" type="text" class="form-control">
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input asp-for="Contraseña" type="text" class="form-control">
+                <span asp-validation-for="Contraseña" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Rol</label>
+                <input asp-for="Roles" type="text" class="form-control">
+                <span asp-validation-for="Roles" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle  me-2"></i>Guardar</button>
+            <a asp-action="Usuarios" asp-controller="Usuario" class="btn btn-warning"><i class="bi bi-backspace me-2"></i>Volver a la lista de Usuarios</a>
+        </form>
+    </div>
+</div>
+
