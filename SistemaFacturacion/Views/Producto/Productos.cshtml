@@ -1,7 +1,6 @@
-﻿@model List<FacturasModel>
-
+﻿@model List<ProductosModel>
 @{
-    ViewData["Title"] = "Facturas";
+    ViewData["Title"] = "Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -80,15 +79,16 @@
             </div>
         </nav>
     </header>
+
     <div class="card">
         <div class="card-header">
-            <h1>Lista de Facturas</h1>
+            <h1>Lista de Productos</h1>
         </div>
         <div class="card-body">
-            <a asp-action="" asp-controller="" class="btn btn-success"><i class="bi bi-plus-circle  me-2"></i>Nueva Factura</a>
+            <a asp-action="newProduct" asp-controller="Producto" class="btn btn-success"><i class="bi bi-plus-circle  me-2"></i>Nuevo Producto</a>
         </div>
 
-        <form asp-action="" asp-controller="" method="get" class="d-flex justify-content-between">
+        <form asp-action="Productos" asp-controller="Producto" method="get" class="d-flex justify-content-between">
             <div class="form-group mx-sm-3 mb-2 d-flex align-items-center">
                 <label class="me-2">Buscar:</label>
                 <div class="input-group">
@@ -107,33 +107,23 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>DNI</th>
                         <th>Nombre Producto</th>
-                        <th>Fecha</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Total</th>
+                        <th>Descripción</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.IdFacture</td>
-                            <td>@item.Clientes.NameClient</td>
-                            <td>@item.Clientes.LastNameClient</td>
-                            <td>@item.Clientes.DNI</td>
-                            <td>@item.Productos.NameProduct</td>
-                            <td>@item.Date</td>
-                            <td>@item.Cantidad</td>
+                            <td>@item.IdProduct</td>
+                            <td>@item.NameProduct</td>
+                            <td>@item.Description</td>
                             <td>@item.Price</td>
-                            <td>@item.Total</td>
 
                             <td>
-                                <a asp-action="" asp-controller="" class="btn btn-primary btn-sm" asp-route-IdFacture="@item.IdFacture"><i class="bi bi-pencil me-2"></i>Editar</a>
-                                <a asp-action="" asp-controller="" class="btn btn-danger btn-sm" asp-route-IdFacture="@item.IdFacture"><i class="bi bi-person-x-fill me-2"></i>Eliminar</a>
+                                <a asp-action="editProduct" asp-controller="Producto" class="btn btn-primary btn-sm" asp-route-IdProduct="@item.IdProduct"><i class="bi bi-pencil me-2"></i>Editar</a>
+                                <a asp-action="deleteProduct" asp-controller="Producto" class="btn btn-danger btn-sm" asp-route-IdProduct="@item.IdProduct"><i class="bi bi-person-x-fill me-2"></i>Eliminar</a>
                             </td>
 
                         </tr>
@@ -144,15 +134,15 @@
             <div class="d-flex justify-content-between align-items-center">
                 <p class="mb-0">Total de registros: @ViewBag.TotalRecords</p>
                 <div>
-                    <a asp-action="Clientes" asp-controller="Cliente" asp-route-pageNumber="@(ViewBag.PageNumber - 1)" class="btn btn-primary">Anterior</a>
+                    <a asp-action="Productos" asp-controller="Producto" asp-route-pageNumber="@(ViewBag.PageNumber - 1)" class="btn btn-primary">Anterior</a>
                     <input type="text" readonly class="form-control d-inline-block text-center" style="width: 50px;" value="@ViewBag.PageNumber" />
-                    <a asp-action="Clientes" asp-controller="Cliente" asp-route-pageNumber="@(ViewBag.PageNumber + 1)" class="btn btn-primary">Siguiente</a>
+                    <a asp-action="Productos" asp-controller="Producto" asp-route-pageNumber="@(ViewBag.PageNumber + 1)" class="btn btn-primary">Siguiente</a>
                 </div>
 
             </div>
 
         </div>
     </div>
-</body>
 
+</body>
 

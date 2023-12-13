@@ -1,0 +1,42 @@
+﻿@model ProductosModel
+@{
+    ViewData["Title"] = "newProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+            </div>
+        </nav>
+    </header>
+
+</body>
+<div class="card">
+    <div class="card-header">
+        Crear Producto
+    </div>
+    <div class="card-body">
+        <form asp-action="newProduct" asp-controller="Producto" method="post">
+            <div class="mb-3">
+                <label class="form-label">Nombre Producto</label>
+                <input asp-for="NameProduct" type="text" class="form-control">
+                <span asp-validation-for="NameProduct" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <input asp-for="Description" type="text" class="form-control">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Precio</label>
+                <input asp-for="Price" type="number" class="form-control">
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle  me-2"></i>Guardar</button>
+            <a asp-action="Productos" asp-controller="Producto" class="btn btn-warning"><i class="bi bi-backspace me-2"></i>Volver a la lista de Productos</a>
+        </form>
+    </div>
+</div>
+
